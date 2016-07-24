@@ -3,12 +3,15 @@ package com.example.user.apptest.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.user.apptest.R;
 import com.example.user.apptest.abstract_classes.AbstractTabFragment;
+import com.example.user.apptest.adapter.MyAdapter;
 import com.example.user.apptest.animation.LatLngInterpolator;
 import com.example.user.apptest.animation.MarkerAnimation;
 import com.google.android.gms.maps.CameraUpdate;
@@ -29,6 +32,9 @@ public class ListFragment extends AbstractTabFragment implements OnMapReadyCallb
     private Context context;
     protected View view;
     private static int counter = 1;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
 
@@ -43,6 +49,20 @@ public class ListFragment extends AbstractTabFragment implements OnMapReadyCallb
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_list, container, false);
         initMap();
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(context);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new MyAdapter();
+        mRecyclerView.setAdapter(mAdapter);
         return view;
     }
 
@@ -78,17 +98,15 @@ public class ListFragment extends AbstractTabFragment implements OnMapReadyCallb
                 .build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         googleMap.moveCamera(cameraUpdate);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(55, 55)));
+        final Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(55, 55)).title("Маркер только 1 и он двигается!"));
         googleMap.getUiSettings().setAllGesturesEnabled(true);
         googleMap.getUiSettings().setMapToolbarEnabled(false);
 
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-
-                Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(55, 55)).title("Маркер №" + counter));
                 LatLngInterpolator latLngInterpolator = new LatLngInterpolator.Spherical();
-                MarkerAnimation.animateMarkerToICS(marker, new LatLng(random.nextInt(57), random.nextInt(57)), latLngInterpolator);
+                MarkerAnimation.animateMarkerToICS(marker, new LatLng(random.nextInt(6) + 50, random.nextInt(6) + 50), latLngInterpolator);
                 counter++;
             }
         });

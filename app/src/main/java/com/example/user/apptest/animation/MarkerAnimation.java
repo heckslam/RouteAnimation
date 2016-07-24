@@ -21,7 +21,7 @@ public class MarkerAnimation {
         };
         Property<Marker, LatLng> property = Property.of(Marker.class, LatLng.class, "position");
         ObjectAnimator animator = ObjectAnimator.ofObject(marker, property, typeEvaluator, finalPosition);
-        animator.setDuration(8000);
+        animator.setDuration(3000);
         animator.start();
     }
 }

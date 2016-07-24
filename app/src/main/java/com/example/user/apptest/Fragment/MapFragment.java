@@ -19,6 +19,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Random;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -66,15 +68,23 @@ public class MapFragment extends AbstractTabFragment implements OnMapReadyCallba
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        final Random random = new Random();
+
+        double lat;
+        double lng;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(55, 55))
-                .zoom(13)
+                .target(new LatLng(52, 52))
+                .zoom(5)
                 .build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         googleMap.moveCamera(cameraUpdate);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(55, 55)));
+        for (int i = 0; i < 10; i++) {
+            lat = random.nextInt(5) + 50;
+            lng = random.nextInt(5) + 50;
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)));
+        }
         googleMap.getUiSettings().setAllGesturesEnabled(true);
         googleMap.getUiSettings().setMapToolbarEnabled(true);
     }
