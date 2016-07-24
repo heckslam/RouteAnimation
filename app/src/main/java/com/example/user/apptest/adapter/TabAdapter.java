@@ -1,18 +1,20 @@
 package com.example.user.apptest.adapter;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.support.v13.app.FragmentStatePagerAdapter;
 
-import com.example.user.apptest.abstract_classes.AbstractTabFragment;
 import com.example.user.apptest.Fragment.ListFragment;
 import com.example.user.apptest.Fragment.MapFragment;
+import com.example.user.apptest.abstract_classes.AbstractTabFragment;
+
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TabAdapter extends FragmentStatePagerAdapter {
+public class TabAdapter extends FragmentPagerAdapter {
 
     private Map<Integer, AbstractTabFragment> tabs;
     private Context context;
